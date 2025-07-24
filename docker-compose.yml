@@ -1,0 +1,40 @@
+version: '3.10'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount the backend code for development hot-reloading
+      - ./backend:/app
+    env_file:
+      - ./backend/.env # Load environment variables from .env file
+    environment:
+      # Ensure Python output is sent straight to output streams without buffering
+      PYTHONUNBUFFERED: 1
+    # depends_on:
+      # Add database service dependency if using a separate DB container
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://backend:8000
+    volumes:
+      # Mount for development hot-reloading
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend # Ensure backend starts before frontend
+
+volumes:
+  backend_db_data:
+    # Define a named volume for the SQLite database file
+    # This ensures the database persists across container restarts

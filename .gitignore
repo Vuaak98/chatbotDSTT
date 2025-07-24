@@ -1,0 +1,29 @@
+# General project-wide ignores
+# OS files
+.DS_Store
+Thumbs.db
+
+
+# IDE/editor files
+.vscode/
+.idea/
+.cursor/
+*.code-workspace
+*.sublime-projectI
+*.sublime-workspace
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Top-level logs and misc
+logs/
+*.log
+*.bak
+*.tmp
+.python-version
+
+# Docker overrides
+docker-compose.override.yml
