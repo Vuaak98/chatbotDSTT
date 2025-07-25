@@ -1,41 +1,39 @@
-# Backend specific ignores
-
-# Environment variables
+# Environments
 .env
-
-# Python cache
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environment
-.venv/
-env/
+.env.local
 venv/
+env/
 ENV/
 env.bak/
 venv.bak/
+__pycache__/
 
+# Don't ignore example env file
+!.env.example
 
-# SQLite Database
-aichatbot.db
+# Database
 *.sqlite3
 *.db
 *.db-journal
 
-# Migrations cache
-migrations/**/__pycache__/
-migrations/versions/**/__pycache__/
-
-# IDE / Editor specific files
-.vscode/
-.idea/
-*.swp
-.cursor/
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
 # Logs
 *.log
+
+# Uploads
+uploads/
+
+# Byte-compiled files
+*.py[cod]
+*$py.class
+.pytest_cache/
+__pycache__/
+*.so
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Data directories
+data/
+tmp/

@@ -21,9 +21,15 @@ class Settings(BaseSettings):
 
     # API Keys
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
+    openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
 
     # Model Configuration
     gemini_model_name: str = os.getenv("GEMINI_MODEL_NAME", "gemini-1.5-flash")
+    openai_model_name: str = os.getenv("OPENAI_MODEL_NAME", "gpt-3.5-turbo")
+
+    # RAG Configuration
+    rag_enabled: bool = os.getenv("RAG_ENABLED", "False").lower() == "true"
+    use_openai: bool = os.getenv("USE_OPENAI", "False").lower() == "true"
 
     # File Upload Settings
     upload_dir: str = os.getenv("UPLOAD_DIR", "/tmp/ai-math-chatbot-uploads")
@@ -44,3 +50,5 @@ def get_settings():
 
 # Get API Keys from environment variables for backward compatibility
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL_NAME = os.getenv("OPENAI_MODEL_NAME", "gpt-3.5-turbo")

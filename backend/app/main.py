@@ -92,6 +92,14 @@ app.include_router(message_router.router)
 app.include_router(file_router.router)
 app.include_router(streaming_router.router)
 
+# Import RAG Router directly from app directory
+try:
+    from . import rag_router
+    app.include_router(rag_router.router, prefix="/rag", tags=["RAG"])
+    logger.info("RAG Router registered successfully")
+except ImportError as e:
+    logger.warning(f"RAG Router not loaded: {str(e)}")
+
 # Start background tasks when the application starts
 @app.on_event("startup")
 async def startup_event():
