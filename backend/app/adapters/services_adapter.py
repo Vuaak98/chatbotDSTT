@@ -100,20 +100,84 @@ class ServicesAdapter:
                 "content": user_prompt
             })
             
-            # Gọi OpenAI API theo cách đồng bộ
-            client = openai.OpenAI(api_key=settings.openai_api_key)
-            response = client.chat.completions.create(
-                model=settings.openai_model_name,
-                messages=messages,
-                temperature=0.7
-            )
-            
-            # Lấy phản hồi
-            return response.choices[0].message.content
+            # Thử OpenAI trước, fallback sang Gemini nếu lỗi
+            try:
+                logger.info("Attempting to use OpenAI API...")
+                client = openai.OpenAI(api_key=settings.openai_api_key)
+                response = client.chat.completions.create(
+                    model=settings.openai_model_name,
+                    messages=messages,
+                    temperature=0.7
+                )
+                
+                # Lấy phản hồi
+                return response.choices[0].message.content
+                
+            except Exception as e:
+                logger.error(f"OpenAI API failed: {e}")
+                
+                # Kiểm tra nếu là lỗi quota (429) thì fallback sang Gemini
+                if "429" in str(e) or "quota" in str(e).lower() or "insufficient_quota" in str(e):
+                    logger.warning("OpenAI quota exceeded, falling back to Gemini...")
+                else:
+                    logger.warning(f"OpenAI error: {e}, falling back to Gemini...")
+                
+                # Fallback sang Gemini
+                try:
+                    logger.info("Using Gemini API as fallback...")
+                    from google import genai
+                    
+                    # Khởi tạo Gemini client
+                    gemini_client = genai.Client(api_key=settings.gemini_api_key)
+                    
+                    # Chuyển đổi messages format cho Gemini
+                    gemini_messages = []
+                    for msg in messages:
+                        if msg["role"] == "system":
+                            # Gemini không có system role, merge vào user message đầu tiên
+                            continue
+                        elif msg["role"] == "user":
+                            content = msg["content"]
+                            # Thêm system message vào user message đầu tiên
+                            if messages[0]["role"] == "system":
+                                content = f"{messages[0]['content']}\n\nUser: {content}"
+                            gemini_messages.append({"role": "user", "parts": [{"text": content}]})
+                        elif msg["role"] == "assistant":
+                            gemini_messages.append({"role": "model", "parts": [{"text": msg["content"]}]})
+                    
+                    # Gọi Gemini API
+                    response = gemini_client.models.generate_content(
+                        model=settings.gemini_model_name,
+                        contents=gemini_messages,
+                        config=genai.GenerateContentConfig(
+                            temperature=0.7,
+                            max_output_tokens=2048
+                        )
+                    )
+                    
+                    return response.text
+                    
+                except Exception as gemini_error:
+                    logger.error(f"Gemini API also failed: {gemini_error}")
+                    return "Xin lỗi, có lỗi xảy ra khi xử lý yêu cầu của bạn. Vui lòng thử lại sau."
             
         except Exception as e:
             logger.error(f"Lỗi trong ServicesAdapter.generate_ai_response: {e}", exc_info=True)
             return f"Đã xảy ra lỗi khi tạo phản hồi AI. Chi tiết: {str(e)}"
+
+# Tạo hàm generate_ai_response ở top-level để có thể import trực tiếp
+def generate_ai_response(
+    chat_history: List[schemas.Message], 
+    user_message_content: str,
+    current_message_files: Optional[List[schemas.FileMetadataInfo]] = None, 
+    db: Session = None
+) -> str:
+    """
+    Wrapper hàm generate_ai_response để import trực tiếp
+    """
+    return ServicesAdapter.generate_ai_response(
+        chat_history, user_message_content, current_message_files, db
+    )
 
 # "Monkey patch" services.py để thêm hàm generate_ai_response mà không sửa file gốc
 if not hasattr(services, "generate_ai_response"):

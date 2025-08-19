@@ -375,7 +375,7 @@ export default function Sidebar() {
           className="text-xl font-bold ml-3 text-left hover:text-primary focus:outline-none"
           aria-label="Return to home"
         >
-          AI Math Chatbot
+          Trợ Lý Học Toán
         </button>
         </div>
         <div></div>

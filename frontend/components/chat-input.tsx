@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useRef, useEffect, useCallback } from "react"
-import { Paperclip, Mic, ArrowUp, X, StopCircle } from "lucide-react"
+import { Paperclip, ArrowUp, X, StopCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useStore } from "@/lib/store"
@@ -12,21 +12,24 @@ import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { uploadFile, streamChatMessage } from "@/lib/api-service"
 import { produce } from "immer"
+import TopicSelector from "@/components/topic-selector"
 
 const PLACEHOLDER_TEXTS = [
-  "Ask anything",
-  "What is the integral of arctan(x)?",
-  "How do you factor x^3 - 1?",
-  "What is the Taylor series for e^x?",
-  "Explain the difference between permutation and combination.",
-  "What is the sum of the first 100 natural numbers?",
-  "How do you find the area under a curve?",
+  "Hỏi bất cứ điều gì về toán...",
+  "Cho tôi đề thi bảng A năm 2024",
+  "Cho tôi bài tập về ma trận",
+  "Giải hệ phương trình tuyến tính",
+  "Bài tập về tổ hợp và xác suất",
+  "Tính định thức ma trận 3x3",
+  "Bài tập về không gian vector",
+  "Tìm giá trị riêng của ma trận",
+  "Bài tập về đa thức đặc trưng",
 ]
 
 export default function ChatInput() {
   const [input, setInput] = useState("")
   const [placeholder, setPlaceholder] = useState(PLACEHOLDER_TEXTS[0])
-  const [showRecordingModal, setShowRecordingModal] = useState(false)
+
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const sendButtonRef = useRef<HTMLButtonElement>(null)
@@ -107,10 +110,10 @@ export default function ChatInput() {
     textareaRef.current?.focus()
   }, [])
   useEffect(() => {
-    if (!isGenerating && !showRecordingModal) {
+    if (!isGenerating) {
       textareaRef.current?.focus()
     }
-  }, [isGenerating, showRecordingModal])
+  }, [isGenerating])
 
   // Focus stop button when generation starts
   useEffect(() => {
@@ -166,6 +169,10 @@ export default function ChatInput() {
         fileInputRef.current.value = "";
     }
     textareaRef.current?.focus()
+  }
+
+  const handleTopicSelect = (topic: string) => {
+    setInput(topic)
   }
 
   const handleSubmit = async () => {
@@ -501,6 +508,11 @@ export default function ChatInput() {
             </Tooltip>
           </TooltipProvider>
         </div>
+      </div>
+
+      {/* Topic Selector */}
+      <div className="mt-3 flex justify-center">
+        <TopicSelector onTopicSelect={handleTopicSelect} />
       </div>
 
       {/* Visually hidden file input for uploads */}

@@ -1,2 +1,2 @@
-# RAG module package
-# Chứa các thành phần liên quan đến Retrieval Augmented Generation 
+# RAG module
+# Đây là package chứa các thành phần của hệ thống RAG (Retrieval Augmented Generation) 

@@ -1,108 +1,253 @@
-# Chatbot Toán AI
+# 🤖 Chatbot Toán AI - AI Math Chatbot
 
-Một chatbot AI tiên tiến được thiết kế để giúp học sinh và người đi làm giải các bài toán từ số học cơ bản đến giải tích nâng cao, đại số tuyến tính, thống kê và nhiều hơn nữa. Dự án này thể hiện kỹ năng phát triển full-stack, tích hợp AI/LLM, xử lý đa phương thức đầu vào và các thực hành tốt nhất về kỹ thuật phần mềm.
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-14+-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> **Một chatbot AI tiên tiến được thiết kế để giúp học sinh và người đi làm giải các bài toán từ số học cơ bản đến giải tích nâng cao, đại số tuyến tính, thống kê và nhiều hơn nữa.**
 
 ## 🚀 Điểm nổi bật của dự án
 
-- **Giải toán từng bước** sử dụng Google Gemini LLM
-- **Giải thích khái niệm toán học** với ví dụ thực tế
-- **Hiển thị LaTeX** cho công thức toán đẹp mắt (KaTeX)
-- **Hỗ trợ tải lên file** (ảnh, PDF, text, DOCX) với xử lý backend thông minh (**tối đa 5 file/lần**)
-- **Phản hồi dạng streaming** với hiệu ứng gõ chữ thời gian thực
-- **Quản lý lịch sử chat** với lưu trữ bền vững (SQLite + SQLAlchemy)
-- **Xử lý lỗi mạnh mẽ** và hỗ trợ truy cập (A11y)
-- **Giao diện giống ChatGPT** với các thành phần Shadcn UI
-- **Thanh bên lịch sử chat** với tìm kiếm, đổi tên, xóa
-- **Phản hồi của người dùng**: sao chép, tạo lại, chỉnh sửa
-- **Phản hồi của AI**: sao chép, tạo lại
-- **Quản lý ngữ cảnh**: lưu lịch sử chat nhiều lượt để hội thoại mạch lạc
+- **🧮 Giải toán từng bước** sử dụng Google Gemini LLM
+- **📚 Giải thích khái niệm toán học** với ví dụ thực tế
+- **🔢 Hiển thị LaTeX** cho công thức toán đẹp mắt (KaTeX)
+- **📁 Hỗ trợ tải lên file** (ảnh, PDF, text, DOCX) với xử lý backend thông minh
+- **⚡ Phản hồi dạng streaming** với hiệu ứng gõ chữ thời gian thực
+- **💾 Quản lý lịch sử chat** với lưu trữ bền vững (SQLite + SQLAlchemy)
+- **🛡️ Xử lý lỗi mạnh mẽ** và hỗ trợ truy cập (A11y)
+- **🎨 Giao diện giống ChatGPT** với các thành phần Shadcn UI
+- **📱 Responsive design** tối ưu cho mọi thiết bị
+- **🧠 RAG System** - Retrieval-Augmented Generation với Qdrant vector database
+- **📊 Data Management** - Hệ thống quản lý và upload dữ liệu toán học
 
-## Ảnh demo
+## 🖼️ Demo
 
-Một số ảnh minh họa chatbot toán AI:
-
-- **Trang khởi đầu (Chế độ sáng):**
-  ![Initial Page Light Mode](assets/Initial_page_light_mode.png)
-- **Trang khởi đầu (Chế độ tối):**
-  ![Initial Page Dark Mode](assets/Initial_page_dark_mode.png)
-- **Demo tải file:**
-  ![File Upload Demo](assets/file_upload_demo.png)
-- **Demo chat:**
-  ![Chat Demo](assets/demo.png)
+| Chế độ sáng | Chế độ tối | Upload file | Giao diện chat |
+|-------------|------------|-------------|----------------|
+| ![Light Mode](assets/Initial_page_light_mode.png) | ![Dark Mode](assets/Initial_page_dark_mode.png) | ![File Upload](assets/file_upload_demo.png) | ![Chat Demo](assets/demo.png) |
 
 ## 🧠 Kỹ năng AI & Kỹ thuật thể hiện
 
-- **Tích hợp Large Language Model (LLM):** Google Gemini Pro API cho giải toán nâng cao, giải thích từng bước, hiểu khái niệm
-- **Prompt Engineering:** Tùy chỉnh hướng dẫn hệ thống để định nghĩa tính cách và khả năng chatbot
-- **Đa phương thức đầu vào:** Backend hỗ trợ text, ảnh, PDF, DOCX; trích xuất và xử lý nội dung tối ưu cho LLM
-- **Streaming & UX thời gian thực:** Phản hồi LLM dạng streaming cho cảm giác tức thì
-- **Nhận diện giọng nói:** Whisper (qua Hugging Face) cho nhập liệu bằng giọng nói
-- **Quản lý ngữ cảnh:** Lưu lịch sử chat nhiều lượt để hội thoại mạch lạc
-- **Sử dụng File API:** Xử lý file lớn với Gemini File API, quản lý TTL
-- **Xử lý lỗi:** Thông báo lỗi thân thiện, backend xử lý ngoại lệ và log mạnh mẽ
-- **Truy cập & UX:** Đáp ứng chuẩn WCAG 2.1 AA, HTML ngữ nghĩa, điều hướng bàn phím, responsive
-- **Full-stack hiện đại:** Backend FastAPI, frontend Next.js/React, Zustand, Tailwind CSS, Docker hóa
+### AI/ML Capabilities
+- **Large Language Model Integration:** Google Gemini Pro API cho giải toán nâng cao
+- **RAG System:** Retrieval-Augmented Generation với vector search thông minh
+- **Prompt Engineering:** Tùy chỉnh hướng dẫn hệ thống để định nghĩa tính cách chatbot
+- **Multi-modal Input Processing:** Hỗ trợ text, ảnh, PDF, DOCX với xử lý thông minh
+- **Context Management:** Lưu trữ lịch sử chat nhiều lượt cho hội thoại mạch lạc
+- **Streaming Responses:** Phản hồi LLM dạng streaming cho trải nghiệm tức thì
+
+### Technical Excellence
+- **Full-stack Architecture:** Backend FastAPI + Frontend Next.js/React
+- **Vector Database:** Qdrant cho semantic search và RAG system
+- **Database Design:** SQLite với SQLAlchemy ORM, Alembic migrations
+- **Data Pipeline:** Hệ thống xử lý và upload dữ liệu toán học tự động
+- **Error Handling:** Exception handling, logging, user-friendly error messages
+- **Accessibility:** WCAG 2.1 AA compliance, semantic HTML, keyboard navigation
+- **Performance:** Rate limiting, middleware optimization, efficient file processing
 
 ## 🗂️ Công nghệ sử dụng
 
-### Backend
-- Python 3.9+
-- FastAPI
-- Google Gen AI SDK (Gemini 2.5 Flash)
-- SQLAlchemy với SQLite
-- Hugging Face Inference API (Whisper cho nhận diện giọng nói)
+### Backend Stack
+- **Python 3.9+** - Ngôn ngữ lập trình chính
+- **FastAPI** - Web framework hiện đại, hiệu suất cao
+- **Google Gen AI SDK** - Gemini 2.5 Flash cho xử lý toán học
+- **Qdrant** - Vector database cho RAG system
+- **SQLAlchemy** - ORM với SQLite database
+- **Pydantic** - Data validation và serialization
+- **Alembic** - Database migration management
 
-### Frontend
-- Next.js với TypeScript
-- Tailwind CSS + Shadcn UI
-- KaTeX cho hiển thị LaTeX
-- Zustand quản lý trạng thái
+### Frontend Stack
+- **Next.js 14** - React framework với App Router
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Shadcn/ui** - High-quality React components
+- **KaTeX** - LaTeX rendering cho công thức toán
+- **Zustand** - Lightweight state management
+
+### DevOps & Tools
+- **Docker** - Containerization cho development và deployment
+- **Git** - Version control
+- **SQLite** - Lightweight database
 
 ## 🏗️ Cấu trúc dự án
 
-Xem file [project-structure.md](project-structure.md) để biết chi tiết cấu trúc dự án.
-- `backend/`: Ứng dụng FastAPI, API, logic nghiệp vụ, model DB, tích hợp Gemini
-- `frontend/`: Ứng dụng Next.js/React, UI, quản lý trạng thái, dịch vụ API
-- `docs/`: Tài liệu dự án, quy tắc, tham khảo
-- `.env.example`: Mẫu biến môi trường (**nằm trong `backend/`**)
-- `LICENSE`: Giấy phép MIT (xem [LICENSE](LICENSE))
-- `docker-compose.yml`: Điều phối frontend & backend khi phát triển local
+```
+ai-math-chatbot-main/
+├── 📁 backend/                 # Backend FastAPI application
+│   ├── 📁 app/                 # Main application code
+│   │   ├── 📁 adapters/        # Service adapters
+│   │   ├── 📁 config/          # Configuration management
+│   │   ├── 📁 crud/            # Database CRUD operations
+│   │   ├── 📁 middleware/      # Custom middleware
+│   │   ├── 📁 rag/             # RAG (Retrieval-Augmented Generation)
+│   │   │   ├── 📁 config/      # RAG configuration
+│   │   │   ├── 📄 qdrant_connector.py
+│   │   │   ├── 📄 rag_service.py
+│   │   │   └── 📄 retriever_semantic.py
+│   │   ├── 📁 routers/         # API route handlers
+│   │   ├── 📁 services/        # Business logic services
+│   │   └── 📁 utils/           # Utility functions
+│   ├── 📁 migrations/          # Database migrations
+│   ├── 📁 data_ingestion/      # Data processing pipelines
+│   ├── requirements.txt         # Python dependencies
+│   └── Dockerfile              # Backend container
+├── 📁 frontend/                # Frontend Next.js application
+│   ├── 📁 app/                 # Next.js app directory
+│   ├── 📁 components/          # React components
+│   ├── 📁 hooks/               # Custom React hooks
+│   ├── 📁 lib/                 # Utilities and services
+│   ├── 📁 public/              # Static assets
+│   ├── package.json            # Node.js dependencies
+│   └── Dockerfile              # Frontend container
+├── 📁 docs/                    # Project documentation
+├── 📁 data/                    # Data files and scripts
+│   ├── 📁 scripts/             # Data processing scripts
+│   │   ├── 📄 final_md_to_json_processor.py
+│   │   ├── 📄 import_to_qdrant_hybrid.py
+│   │   ├── 📄 qdrant_smoke_check.py
+│   │   └── 📄 smart_latex_translator.py
+│   ├── 📁 raw/                 # Raw Markdown data
+│   └── 📁 processed/           # Processed JSON data
+├── 📁 assets/                  # Demo images and screenshots
+├── docker-compose.yml          # Development environment
+└── README.md                   # This file
+```
+
+## 🚀 Khởi chạy dự án
+
+### Yêu cầu hệ thống
+- Python 3.9+
+- Node.js 18+
+- Docker & Docker Compose (khuyến nghị)
+- Qdrant vector database
+
+### Cách 1: Sử dụng Docker (Khuyến nghị)
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/ai-math-chatbot.git
+cd ai-math-chatbot
+
+# Khởi chạy với Docker Compose
+docker-compose up -d
+
+# Truy cập ứng dụng
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8000
+# API Docs: http://localhost:8000/docs
+# Qdrant: http://localhost:6333
+```
+
+### Cách 2: Khởi chạy thủ công
+
+#### Backend
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# Tạo file .env từ .env.example
+cp .env.example .env
+# Cập nhật GOOGLE_API_KEY trong .env
+
+# Khởi chạy server
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+#### Frontend
+```bash
+cd frontend
+npm install
+# hoặc
+pnpm install
+
+# Khởi chạy development server
+npm run dev
+# hoặc
+pnpm dev
+```
+
+## 🔧 Cấu hình
+
+### Biến môi trường Backend
+Tạo file `.env` trong thư mục `backend/`:
+
+```env
+GOOGLE_API_KEY=your_gemini_api_key_here
+DATABASE_URL=sqlite:///./aichatbot.db
+SECRET_KEY=your_secret_key_here
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+```
+
+### Biến môi trường Frontend
+Tạo file `.env.local` trong thư mục `frontend/`:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+```
+
+## 📚 API Documentation
+
+Sau khi khởi chạy backend, truy cập:
+- **Swagger UI:** http://localhost:8000/docs
+- **ReDoc:** http://localhost:8000/redoc
+
+### Endpoints chính
+- `POST /chat/` - Gửi tin nhắn chat
+- `POST /chat/stream` - Chat streaming
+- `POST /files/upload` - Upload file
+- `GET /chat/history` - Lấy lịch sử chat
+- `POST /rag/search` - Tìm kiếm với RAG system
+
+## 📊 Quản lý dữ liệu và RAG System
+
+### Upload dữ liệu lên Qdrant
+```bash
+# 1. Kiểm tra kết nối Qdrant
+python data/scripts/qdrant_smoke_check.py
+
+# 2. Xử lý dữ liệu gốc (Markdown → JSON)
+python data/scripts/final_md_to_json_processor.py
+
+# 3. Upload dữ liệu lên Qdrant
+python data/scripts/import_to_qdrant_hybrid.py
+```
+
+### Cấu trúc dữ liệu
+- **Input:** File Markdown trong `data/raw/` (bài tập, lời giải toán học)
+- **Processing:** Chuyển đổi thành JSON với metadata phong phú
+- **Storage:** Qdrant vector database với embeddings và semantic search
+- **Retrieval:** RAG system tìm kiếm thông tin liên quan
 
 ## 🧪 Kiểm thử
 
-**Lưu ý:** Backend và frontend sẽ được bổ sung test ở giai đoạn sau. Dự án đã cấu trúc sẵn để dễ tích hợp test:
+**Lưu ý:** Unit, integration, và E2E tests sẽ được bổ sung trong giai đoạn tiếp theo. Dự án đã được cấu trúc sẵn để dễ dàng tích hợp testing:
 
-- **Backend:** `pytest` cho unit/integration test, `httpx` cho test API
-- **Frontend:** `jest` và `react-testing-library` cho test component và tích hợp
-- **E2E:** Playwright hoặc Cypress cho test luồng người dùng
-
-## 📄 Giấy phép
-
-Dự án này sử dụng giấy phép MIT. Xem file [LICENSE](LICENSE) để biết chi tiết.
+- **Backend:** `pytest` cho unit/integration tests
+- **Frontend:** `jest` và `react-testing-library` cho component tests
+- **E2E:** Playwright hoặc Cypress cho end-to-end testing
 
 ## 🔮 Định hướng phát triển
 
-- **Nâng cao năng lực toán:** Tích hợp tính toán ký hiệu (SymPy) cho đại số, giải phương trình
-- **Đăng nhập người dùng:** Tùy chọn đăng nhập để lưu lịch sử chat, tuỳ chỉnh
-- **Trang quản trị:** Thống kê, phân tích, công cụ kiểm duyệt
-- **Đa ngôn ngữ:** Mở rộng hỗ trợ nhiều ngôn ngữ
-- **Ứng dụng di động:** React Native hoặc Flutter cho mobile
-- **A11y nâng cao:** Cải thiện hơn nữa cho trình đọc màn hình, người dùng đặc biệt
-- **Triển khai cloud:** Một click lên GCP, AWS, Azure
-- **Tự động kiểm thử:** CI/CD tích hợp test và deploy tự động
-- **Hệ thống plugin:** Cho phép mở rộng tính năng chatbot bằng plugin
-- **Máy tính:** Thêm máy tính cơ bản/khoa học vào chatbot
-- **Đồ thị, biểu đồ:** Thêm khả năng vẽ đồ thị, biểu đồ từ dữ liệu
-- **Vẽ canvas:** Cho phép vẽ biểu thức, hình học, đồ thị toán học
-- **Kiểm thử unit/tích hợp/E2E:** Bổ sung test các cấp
+### Giai đoạn ngắn hạn
+- [x] **RAG System:** Retrieval-Augmented Generation với Qdrant
+- [x] **Data Pipeline:** Hệ thống xử lý và upload dữ liệu
+- [ ] **Tính toán ký hiệu:** Tích hợp SymPy cho đại số và giải phương trình
+- [ ] **Hệ thống đăng nhập:** User authentication và profile management
 
-## 📬 Liên hệ
-Nếu có câu hỏi hoặc góp ý, vui lòng liên hệ:
+### Giai đoạn trung hạn
+- [ ] **Dashboard quản trị:** Analytics và moderation tools
+- [ ] **Đa ngôn ngữ:** Hỗ trợ nhiều ngôn ngữ
+- [ ] **Mobile app:** React Native hoặc Flutter
+- [ ] **Máy tính tích hợp:** Scientific calculator functionality
 
-- **GitHub:** [EvanGks](https://github.com/EvanGks)
-- **X (Twitter):** [@Evan6471133782](https://x.com/Evan6471133782)
-- **LinkedIn:** [Evangelos Gakias](https://www.linkedin.com/in/evangelos-gakias-346a9072)
-- **Kaggle:** [evangelosgakias](https://www.kaggle.com/evangelosgakias)
-- **Email:** [evangks88@gmail.com](mailto:evangks88@gmail.com)
+### Giai đoạn dài hạn
+- [ ] **Cloud deployment:** One-click deployment lên GCP/AWS/Azure
+- [ ] **Plugin system:** Extensible chatbot với plugin architecture
+- [ ] **Advanced visualization:** Graphing và charting capabilities
 
----
+

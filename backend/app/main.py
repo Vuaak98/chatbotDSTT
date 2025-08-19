@@ -85,6 +85,11 @@ def read_root():
     """Provides a simple welcome message for the API root."""
     return {"message": "Welcome to the AI Math Chatbot API"}
 
+@app.get("/health", tags=["Health"])
+def health_check():
+    """Health check endpoint for Docker health checks"""
+    return {"status": "healthy", "message": "AI Math Chatbot API is running"}
+
 from .routers import chat_router, message_router, file_router, streaming_router
 
 app.include_router(chat_router.router)

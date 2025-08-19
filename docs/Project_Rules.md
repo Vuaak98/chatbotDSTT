@@ -17,11 +17,11 @@ This document outlines the specific rules, standards, and procedures for develop
 *   **Directory Structure:** Maintain a clear separation between `frontend` and `backend` directories at the project root. Shared configuration or scripts can reside at the root level.
 *   **Dependencies:**
     *   Use `requirements.txt` (backend) and `package.json` (frontend) for dependency management.
-    *   Required Backend Libraries: `google-genai`, `fastapi`, `uvicorn`, `python-docx`, `pydantic`, `sqlite3` (standard library), `httpx` (for fetching files from URLs), appropriate Whisper client library (e.g., `openai`), `python-dotenv`.
-    *   Required Frontend Libraries: `react`, `react-dom`, `typescript`, `tailwindcss`, `zustand`, `katex`, `react-speech-recognition`, `heroicons` (or `feather-icons`), potentially a markdown renderer (`react-markdown`) and syntax highlighter (`react-syntax-highlighter`).
+    *   Required Backend Libraries: `google-genai`, `fastapi`, `uvicorn`, `python-docx`, `pydantic`, `sqlite3` (standard library), `httpx` (for fetching files from URLs), `python-dotenv`.
+    *   Required Frontend Libraries: `react`, `react-dom`, `typescript`, `tailwindcss`, `zustand`, `katex`, `heroicons` (or `feather-icons`), potentially a markdown renderer (`react-markdown`) and syntax highlighter (`react-syntax-highlighter`).
     *   Keep dependencies up-to-date, addressing security vulnerabilities promptly.
 *   **Environment Variables:**
-    *   Define all sensitive keys (Gemini API Key, Whisper API Key) and configuration settings (e.g., backend port, database file path) in a `.env` file at the project root.
+    *   Define all sensitive keys (Gemini API Key) and configuration settings (e.g., backend port, database file path) in a `.env` file at the project root.
     *   Use `python-dotenv` (backend) or standard environment variable handling (frontend build process) to load these variables.
     *   **Never commit `.env` files to version control.** A `.env.example` file *must* be provided listing required variables.
 *   **Containerization:**
@@ -53,7 +53,7 @@ This document outlines the specific rules, standards, and procedures for develop
     *   Centralize API call logic (e.g., in a `src/services` directory).
 *   **Accessibility (A11y):** Implement specific A11y features outlined in Section 5 of the PRD and `global_rules.md`. Use semantic HTML and ARIA attributes diligently.
 
-### 2.3 API Integration (Gemini & Whisper)
+### 2.3 API Integration (Gemini)
 
 *   **Gemini (`google-genai` SDK):**
     *   Instantiate the client using the API key from environment variables.
@@ -67,11 +67,8 @@ This document outlines the specific rules, standards, and procedures for develop
     *   Handle text extraction from `.txt` and `.docx` (using `python-docx`) *before* sending to Gemini (Roadmap Section 3.4).
     *   Structure `contents` correctly using `types.Content` and `types.Part` (Roadmap Section 4, `gemini_api_doc.md`).
     *   Implement robust error handling for `google.genai.errors.APIError` (Roadmap Section 4).
-*   **Whisper (Speech-to-Text):**
-    *   Integrate with the specified Whisper API endpoint (OpenAI or Hugging Face).
-    *   Manage Whisper API key securely via environment variables.
-    *   Handle audio data transfer from frontend to backend (`/stt` endpoint).
-    *   Implement error handling for transcription failures (Roadmap Section 3.5, PRD Section 4).
+
+
 
 ## 3. File Handling
 
@@ -93,14 +90,14 @@ This document outlines the specific rules, standards, and procedures for develop
 ## 4. Testing
 
 *   **Unit Tests:**
-    *   Backend: Use `pytest`. Test individual functions/classes for database operations, file processing logic, API payload construction, utility functions. Mock external dependencies (Gemini API, Whisper API, DB calls).
+    *   Backend: Use `pytest`. Test individual functions/classes for database operations, file processing logic, API payload construction, utility functions. Mock external dependencies (Gemini API, DB calls).
     *   Frontend: Use `jest` and `react-testing-library`. Test individual components (rendering, state changes, event handlers), utility functions, and state logic (Zustand stores).
 *   **Integration Tests:**
-    *   Backend: Test API endpoints using `pytest` and `httpx` (or FastAPI's `TestClient`). Test interactions between components (e.g., router -> service -> crud). Test interaction with a test database. Mock external APIs (Gemini, Whisper).
-    *   Frontend-Backend: Test the flow of data between frontend and backend API endpoints (e.g., sending a message, receiving a stream, uploading a file, STT).
+    *   Backend: Test API endpoints using `pytest` and `httpx` (or FastAPI's `TestClient`). Test interactions between components (e.g., router -> service -> crud). Test interaction with a test database. Mock external APIs (Gemini).
+    *   Frontend-Backend: Test the flow of data between frontend and backend API endpoints (e.g., sending a message, receiving a stream, uploading a file).
 *   **End-to-End (E2E) Tests:**
     *   Use tools like Playwright or Cypress.
-    *   Simulate key user flows described in the PRD: basic text chat, file upload interaction, voice input interaction, chat history management (new, load, rename, delete).
+    *   Simulate key user flows described in the PRD: basic text chat, file upload interaction, chat history management (new, load, rename, delete).
     *   Cover streaming response display and interruption.
 *   **Coverage:** Aim for reasonable test coverage, focusing on critical paths and business logic.
 *   **CI/CD:** Integrate tests into a Continuous Integration pipeline (if applicable) to run automatically on commits/PRs.
@@ -119,7 +116,7 @@ Development should progress according to the milestones defined in the `AI_ Math
 
 *   **Milestone 1:** Basic Text Chat (Core UI, Backend API, Gemini Text, Streaming, DB History)
 *   **Milestone 2:** File Uploads (File UI, Backend Processing, Gemini Multimodal/Files API)
-*   **Milestone 3:** Voice Input (Mic UI, Backend STT, Transcription Display)
+*   **Milestone 3:** Advanced Features (Enhanced UI, Performance Optimization)
 *   **Milestone 4:** Chat History Management (Sidebar UI, CRUD Operations)
 *   **Milestone 5:** Refinement (Error Handling, A11y, Responsiveness, Dockerization Finalization)
 

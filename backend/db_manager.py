@@ -72,27 +72,27 @@ def backup_db():
     db_url = settings.database_url
     
     if db_url.startswith("sqlite:///"):
-        # Extract the database path from the URL
-        db_path = db_url.replace("sqlite:///", "")
-        if db_path.startswith("./"):
-            db_path = db_path[2:]
+    # Extract the database path from the URL
+    db_path = db_url.replace("sqlite:///", "")
+    if db_path.startswith("./"):
+        db_path = db_path[2:]
+    
+    # Create a timestamped backup file
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_path = f"{db_path}.{timestamp}.backup"
+    
+    try:
+        # Make sure the database exists
+        if not os.path.exists(db_path):
+            logger.error(f"Database file not found: {db_path}")
+            return False
         
-        # Create a timestamped backup file
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        backup_path = f"{db_path}.{timestamp}.backup"
-        
-        try:
-            # Make sure the database exists
-            if not os.path.exists(db_path):
-                logger.error(f"Database file not found: {db_path}")
-                return False
-            
-            # Copy the database file
-            shutil.copy2(db_path, backup_path)
-            logger.info(f"Database backed up to: {backup_path}")
-            return True
-        except Exception as e:
-            logger.error(f"Error backing up database: {e}")
+        # Copy the database file
+        shutil.copy2(db_path, backup_path)
+        logger.info(f"Database backed up to: {backup_path}")
+        return True
+    except Exception as e:
+        logger.error(f"Error backing up database: {e}")
             return False
     elif db_url.startswith("postgresql://"):
         # For PostgreSQL, we'll use pg_dump

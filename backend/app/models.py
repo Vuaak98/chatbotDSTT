@@ -71,3 +71,18 @@ class Message(Base):
         secondary=message_file_link_table,
         back_populates="messages"
     )
+
+class MessageFile(Base):
+    """
+    Represents a direct link between messages and files
+    This is used when we need direct control over the relationship
+    """
+    __tablename__ = "message_files"
+    
+    message_id = Column(Integer, ForeignKey("messages.id"), primary_key=True)
+    file_id = Column(String, ForeignKey("file_metadata.id"), primary_key=True)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    
+    # Optional relationships if needed
+    # message = relationship("Message")
+    # file = relationship("FileMetadata")

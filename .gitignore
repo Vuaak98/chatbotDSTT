@@ -1,29 +1,210 @@
-# General project-wide ignores
-# OS files
-.DS_Store
-Thumbs.db
+# ===========================================
+# AI Math Chatbot - Main .gitignore
+# ===========================================
 
+# ===========================================
+# Dependencies & Build artifacts
+# ===========================================
+node_modules/
+.pnp/
+.pnp.js
 
-# IDE/editor files
-.vscode/
-.idea/
-.cursor/
-*.code-workspace
-*.sublime-projectI
-*.sublime-workspace
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Virtual environments
-.venv/
-venv/
-ENV/
-env/
+# ===========================================
+# Environment & Configuration
+# ===========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
 
-# Top-level logs and misc
+# ===========================================
+# Database & Data files
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# ===========================================
+# Logs & Temporary files
+# ===========================================
 logs/
 *.log
 *.bak
 *.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ===========================================
+# IDE & Editor files
+# ===========================================
+.vscode/
+.idea/
+.cursor/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+.atom/
+.brackets.json
+
+# ===========================================
+# OS generated files
+# ===========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ===========================================
+# Virtual environments
+# ===========================================
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# ===========================================
+# Testing & Coverage
+# ===========================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# ===========================================
+# Docker & Deployment
+# ===========================================
+docker-compose.override.yml
+.dockerignore
+
+# ===========================================
+# Python specific
+# ===========================================
+.python-version
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ===========================================
+# Jupyter Notebook
+# ===========================================
+.ipynb_checkpoints
+
+# ===========================================
+# pyenv
+# ===========================================
 .python-version
 
-# Docker overrides
-docker-compose.override.yml
+# ===========================================
+# pipenv
+# ===========================================
+Pipfile.lock
+
+# ===========================================
+# PEP 582
+# ===========================================
+__pypackages__/
+
+# ===========================================
+# Celery
+# ===========================================
+celerybeat-schedule
+celerybeat.pid
+
+# ===========================================
+# SageMath parsed files
+# ===========================================
+*.sage.py
+
+# ===========================================
+# Spyder project settings
+# ===========================================
+.spyderproject
+.spyproject
+
+# ===========================================
+# Rope project settings
+# ===========================================
+.ropeproject
+
+# ===========================================
+# mkdocs documentation
+# ===========================================
+/site
+
+# ===========================================
+# mypy
+# ===========================================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ===========================================
+# Pyre type checker
+# ===========================================
+.pyre/
+
+# ===========================================
+# pytype static type analyzer
+# ===========================================
+.pytype/
+
+# ===========================================
+# Cython debug symbols
+# ===========================================
+cython_debug/
+
+# ===========================================
+# Project specific ignores
+# ===========================================
+# Data files that should not be committed
+data/evaluation/
+data/processed/final/
+*.log
+
+# Keep example files
+!.env.example
+!data/scripts/README_USAGE.md

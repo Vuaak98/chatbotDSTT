@@ -1,109 +1,285 @@
-# Chatbot Toán AI - Backend
+# 🚀 Backend README - AI Math Chatbot
 
-Đây là **backend** cho ứng dụng Chatbot Toán AI, xây dựng với FastAPI, SQLAlchemy và Google Gemini API. Backend cung cấp các API mạnh mẽ, bảo mật và mở rộng cho chat, tải file, chuyển giọng nói thành văn bản và quản lý lịch sử chat.
+## 📋 Tổng quan
 
-## 🌟 Tính năng nổi bật
+Backend của AI Math Chatbot được xây dựng với FastAPI, tích hợp Google Gemini LLM và RAG system tiên tiến. Hệ thống hỗ trợ xử lý toán học, semantic search, và context-aware responses.
 
-- **RESTful API** cho chat, tải file và chuyển giọng nói thành văn bản
-- **Phản hồi LLM dạng streaming** (Google Gemini 2.5 Flash)
-- **Hỗ trợ đa phương thức đầu vào:** text, ảnh, PDF, DOCX
-- **Lưu lịch sử chat bền vững** với SQLite + SQLAlchemy
-- **Quản lý file** (xử lý trực tiếp và qua Gemini Files API, **tối đa 5 file/lần**)
-- **Xử lý lỗi mạnh mẽ** và ghi log
-- **Giới hạn tốc độ** và làm sạch đầu vào để bảo mật
-- **Tự động bảo trì nền** (xóa file hết hạn, dọn dẹp tin nhắn)
+## 🏗️ Cấu trúc thư mục backend
 
-## 👨‍💻 Kỹ thuật & Thực hành tốt
-
-- **FastAPI** cho phát triển API hiệu năng cao, bất đồng bộ
-- **SQLAlchemy ORM** cho truy cập cơ sở dữ liệu an toàn, hiệu quả
-- **Alembic** cho quản lý migration database
-- **Xử lý lỗi tập trung** với middleware và handler ngoại lệ tùy chỉnh
-- **Ghi log có cấu trúc** để debug và giám sát
-- **Cấu hình theo môi trường** (xem `.env.example`)
-- **Bảo mật:**
-  - Quản lý API key qua biến môi trường
-  - Làm sạch đầu vào (text, tên file, MIME type)
-  - Giới hạn tốc độ theo endpoint
-  - Không ghi log hoặc trả về dữ liệu nhạy cảm
-- **Kiến trúc module hóa:** routers, services, CRUD, middleware, utils
-
-## 🏗️ Cấu trúc dự án
-
-Xem [project-structure.md](../project-structure.md) để biết chi tiết backend và toàn bộ dự án.
-
-## ⚙️ Quản lý cơ sở dữ liệu
-
-- **SQLite** cho phát triển local (có thể cấu hình qua `DATABASE_URL`)
-- **Schema:** Chats, Messages, GeminiFiles (xem `app/models.py`)
-- **Script quản lý:** `db_manager.py` cho khởi tạo, seed, reset, backup, clean, check
-- **Migration:** Alembic cho thay đổi schema
-
-## 🛡️ Bảo mật & Xử lý lỗi
-
-- **Xử lý lỗi tập trung:**
-  - `ErrorHandlerMiddleware` bắt ngoại lệ toàn cục
-  - Handler tùy chỉnh cho lỗi validate, HTTP, Gemini API
-- **Giới hạn tốc độ:**
-  - Middleware `RateLimiter` với cấu hình riêng cho từng endpoint
-- **Làm sạch đầu vào:**
-  - Kiểm tra và làm sạch text, tên file, MIME type
-- **Quản lý API key:**
-  - Tất cả secret lấy từ biến môi trường, không hardcode
-
-## 🔗 Các endpoint API
-
-- `POST /chats`: Tạo chat mới
-- `GET /chats`: Lấy tất cả chat
-- `GET /chats/{chat_id}`: Lấy chat cụ thể
-- `PUT /chats/{chat_id}`: Cập nhật chat
-- `DELETE /chats/{chat_id}`: Xóa chat
-- `POST /chats/{chat_id}/messages/`: Gửi tin nhắn vào chat
-- `GET /chats/{chat_id}/messages/`: Lấy tất cả tin nhắn trong chat
-- `POST /chats/{chat_id}/stream`: Gửi tin nhắn và nhận phản hồi dạng streaming
-- `POST /upload-file`: Tải tối đa 5 file (PDF, ảnh, DOCX, text) cùng lúc
-
-## 🏃‍♂️ Chạy backend
-
-```bash
-# Cài đặt thư viện
-pip install -r requirements.txt
-
-# Khởi tạo database
-python db_manager.py init
-
-# Chạy server
-uvicorn app.main:app --reload
+```
+backend/
+│
+├── app/                    # Code chính của ứng dụng
+│   ├── __init__.py
+│   ├── main.py            # FastAPI application entry point
+│   ├── config.py          # Cấu hình ứng dụng
+│   ├── database.py        # Database connection và models
+│   ├── models.py          # SQLAlchemy models
+│   ├── schemas.py         # Pydantic schemas
+│   ├── services.py        # Business logic services
+│   ├── adapters/          # Service adapters
+│   ├── crud/              # Database CRUD operations
+│   ├── middleware/        # Custom middleware
+│   ├── rag/               # RAG system components
+│   │   ├── rag_service.py
+│   │   ├── qdrant_connector.py
+│   │   ├── retriever_semantic.py
+│   │   └── context_builder.py
+│   ├── routers/           # API route handlers
+│   ├── services/          # Core services
+│   │   ├── llm/           # LLM integration
+│   │   ├── embeddings/    # Vector embeddings
+│   │   └── rag_integration.py
+│   └── utils/             # Utility functions
+├── data_ingestion/         # Data processing pipelines
+├── migrations/             # Database migrations (Alembic)
+├── requirements.txt        # Python dependencies
+├── alembic.ini            # Alembic configuration
+├── .env.example           # Environment variables template
+├── Dockerfile             # Docker configuration
+└── README.md              # Hướng dẫn này
 ```
 
-- API: http://localhost:8000
-- Docs: http://localhost:8000/docs
+## 🔧 Cài đặt môi trường
 
-## 🧪 Kiểm thử
+### 1. Cài đặt dependencies
+```bash
+cd backend
+pip install -r requirements.txt
+```
 
-**Lưu ý:** Backend sẽ được bổ sung test ở giai đoạn sau. Dự án đã cấu trúc sẵn để dễ tích hợp test:
+### 2. Cấu hình biến môi trường
+Copy `.env.example` thành `.env` và cập nhật:
+```env
+# Gemini API
+GOOGLE_API_KEY=your_gemini_api_key_here
 
-- `pytest` cho unit/integration test
-- `httpx` hoặc FastAPI `TestClient` cho test API
-- Mock API ngoài (Gemini, Whisper)
+# Database
+DATABASE_URL=sqlite:///./aichatbot.db
 
-## 🗂️ Thông tin thêm
+# Qdrant Vector Database
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+QDRANT_COLLECTION=math_problems
 
-- Xem [README chính](../README.md) để biết hướng dẫn tổng thể, tính năng, triển khai
-- Xem [project-structure.md](../project-structure.md) để biết chi tiết thư mục
+# Security
+SECRET_KEY=your_secret_key_here
+```
 
-## 🔍 Định hướng phát triển
+### 3. Khởi tạo database
+```bash
+# Chạy migrations
+alembic upgrade head
 
-- **Công cụ quản trị nâng cao:** Dashboard phân tích, thống kê, kiểm duyệt
-- **Hệ thống plugin:** Cho phép mở rộng backend bằng plugin mới
-- **Thêm phân tích:** Theo dõi sử dụng API, lỗi, hiệu năng
-- **Giới hạn tốc độ nâng cao:** Theo người dùng, thích ứng, hoặc thuật toán token bucket
-- **Hỗ trợ nhiều DB:** Thêm PostgreSQL hoặc MySQL
-- **Tự động kiểm thử:** CI/CD tích hợp test và deploy tự động
-- **Đa ngôn ngữ:** Backend hỗ trợ i18n cho lỗi và log
-- **Quét file nâng cao:** Quét mã độc cho file upload
-- **Đăng nhập người dùng:** Tùy chọn đăng nhập để lưu lịch sử chat, cá nhân hóa
+# Hoặc sử dụng script
+python migrate.py
+```
+
+## 🚀 Khởi chạy ứng dụng
+
+### Development mode
+```bash
+cd backend
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### Production mode
+```bash
+cd backend
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+### Docker
+```bash
+docker build -t ai-math-chatbot-backend .
+docker run -p 8000:8000 ai-math-chatbot-backend
+```
+
+## 📚 API Documentation
+
+Sau khi khởi chạy, truy cập:
+- **Swagger UI:** http://localhost:8000/docs
+- **ReDoc:** http://localhost:8000/redoc
+
+### Endpoints chính
+- `POST /chat/` - Chat với LLM
+- `POST /chat/stream` - Streaming chat
+- `POST /files/upload` - Upload file
+- `GET /chat/history` - Lịch sử chat
+- `POST /rag/search` - RAG search
+- `GET /rag/health` - Health check
+
+## 🧠 RAG System
+
+### Components
+- **RAGService**: Core logic cho retrieval và generation
+- **QdrantConnector**: Kết nối vector database
+- **SemanticRetriever**: Semantic search với embeddings
+- **ContextBuilder**: Xây dựng context từ retrieved documents
+
+### Usage
+```python
+from app.rag.rag_service import RAGService
+
+rag_service = RAGService()
+
+# Get context
+context, success = await rag_service.get_context(
+    query="giải phương trình bậc 2",
+    problem_only=True
+)
+
+# Generate response
+response = await rag_service.generate_response(
+    query="giải phương trình bậc 2",
+    context=context
+)
+```
+
+## 📊 Database
+
+### Models
+- **Chat**: Lưu trữ lịch sử chat
+- **Message**: Tin nhắn trong chat
+- **File**: Thông tin file đã upload
+- **MessageFile**: Liên kết message và file
+
+### Migrations
+Sử dụng Alembic để quản lý database schema:
+```bash
+# Tạo migration mới
+alembic revision --autogenerate -m "Description"
+
+# Áp dụng migrations
+alembic upgrade head
+
+# Rollback
+alembic downgrade -1
+```
+
+## 🔍 Testing
+
+### Unit Tests
+```bash
+# Chạy tất cả tests
+pytest
+
+# Chạy tests cụ thể
+pytest tests/test_rag.py
+```
+
+### Integration Tests
+```bash
+# Test RAG pipeline
+python -m pytest tests/test_integration.py -v
+```
+
+## 📈 Monitoring & Logging
+
+### Logging
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+logger.info("RAG query processed successfully")
+logger.error("Failed to connect to Qdrant")
+```
+
+### Health Checks
+- Database connection
+- Qdrant connection
+- Gemini API availability
+- Memory usage
+
+## 🐳 Docker
+
+### Build
+```bash
+docker build -t ai-math-chatbot-backend .
+```
+
+### Run
+```bash
+docker run -d \
+  --name math-chatbot-backend \
+  -p 8000:8000 \
+  --env-file .env \
+  ai-math-chatbot-backend
+```
+
+### Docker Compose
+```bash
+docker-compose up -d backend
+```
+
+## 🔧 Development
+
+### Code Style
+- Sử dụng **Black** cho code formatting
+- **isort** cho import sorting
+- **flake8** cho linting
+
+### Pre-commit hooks
+```bash
+# Cài đặt pre-commit
+pip install pre-commit
+pre-commit install
+
+# Chạy manual
+pre-commit run --all-files
+```
+
+### Adding new features
+1. Tạo model trong `app/models.py`
+2. Tạo schema trong `app/schemas.py`
+3. Tạo CRUD operations trong `app/crud/`
+4. Tạo router trong `app/routers/`
+5. Thêm tests
+6. Cập nhật documentation
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+#### 1. Qdrant Connection Error
+```bash
+# Kiểm tra Qdrant status
+python -c "from app.rag.qdrant_connector import QdrantConnector; print(QdrantConnector().health_check())"
+```
+
+#### 2. Database Migration Issues
+```bash
+# Reset database
+rm aichatbot.db
+alembic upgrade head
+```
+
+#### 3. Import Errors
+```bash
+# Kiểm tra PYTHONPATH
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+```
+
+## 📚 Tài liệu tham khảo
+
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/)
+- [Alembic Documentation](https://alembic.sqlalchemy.org/)
+- [Qdrant Documentation](https://qdrant.tech/documentation/)
+
+## 🤝 Contributing
+
+1. Fork repository
+2. Tạo feature branch
+3. Commit changes
+4. Push to branch
+5. Tạo Pull Request
+
+## 📞 Liên hệ
+
+- **GitHub:** [EvanGks](https://github.com/EvanGks)
+- **Email:** [evangks88@gmail.com](mailto:evangks88@gmail.com)
 
 ---
 
-**Thể hiện kỹ năng backend của bạn:** Dự án này hướng tới chất lượng portfolio, sẵn sàng production, là ví dụ điển hình về phát triển API AI hiện đại. Rất hoan nghênh đóng góp và phản hồi!
+**Backend AI Math Chatbot với RAG system đã sẵn sàng cho production! 🚀✨**

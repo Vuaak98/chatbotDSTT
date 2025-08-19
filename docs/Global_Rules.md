@@ -53,7 +53,7 @@ This document outlines global rules, standards, and best practices applicable to
 ## 4. Performance & Optimization
 
 *   **API Usage:**
-    *   Be mindful of API call costs and quotas (e.g., Gemini, Whisper).
+    *   Be mindful of API call costs and quotas (e.g., Gemini).
     *   Use streaming responses (`generate_content_stream`) where appropriate to improve perceived performance.
     *   Consider `count_tokens` for estimating costs or validating input sizes.
     *   Explore context caching (`client.caches.create`) for Gemini if large contexts are frequently reused, understanding the cost implications and TTL (See `gemini_api_doc.md`).

@@ -1,6 +1,7 @@
 # Import CRUD modules to expose as part of the crud package
 from . import file_crud
 from . import chat_crud
+from . import message_crud
 
 # Re-export common functions from chat_crud for backward compatibility
 from .chat_crud import (
@@ -20,4 +21,10 @@ from .file_crud import (
     get_file_metadata_by_id,
     create_file_metadata,
     delete_file_metadata
+)
+
+# Export message_crud functions
+from .message_crud import (
+    link_file_to_message,
+    link_file_to_message_async
 ) 

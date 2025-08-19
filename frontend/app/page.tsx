@@ -286,7 +286,7 @@ export default function Home() {
                   <path d="M2006 604 c-12 -12 -16 -38 -16 -114 0 -124 6 -130 128 -130 123 0 122 -1 122 130 0 132 2 130 -129 130 -68 0 -93 -4 -105 -16z m59 -64 c-10 -11 -22 -20 -27 -20 -15 0 -8 39 10 49 26 15 39 -5 17 -29z m131 15 c12 -30 -2 -35 -25 -11 l-24 26 22 0 c12 0 24 -7 27 -15z m-42 -65 c0 -33 -2 -34 -37 -36 -37 -1 -37 0 -37 38 0 39 0 39 37 36 35 -3 37 -5 37 -38z m-92 -47 c24 -22 23 -35 -4 -31 -15 2 -24 11 -26 26 -4 26 5 28 30 5z m138 -8 c0 -20 -5 -25 -27 -25 l-26 0 23 25 c13 14 25 25 27 25 2 0 3 -11 3 -25z"/> 
                 </g>
               </svg>
-              <h1 className="text-xl font-bold tracking-tight">AI Math Chatbot</h1>
+              <h1 className="text-xl font-bold tracking-tight">Trợ Lý Học Toán</h1>
             </div>
           </div>
           <div className="flex items-center gap-2 rounded-full px-2 bg-background/90 dark:bg-background/90">
@@ -334,9 +334,9 @@ export default function Home() {
                 <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <BookOpen className="h-10 w-10" />
                 </div>
-                <h2 className="mb-2 text-center text-3xl font-bold tracking-tight">Ask me anything about math!</h2>
+                <h2 className="mb-2 text-center text-3xl font-bold tracking-tight">Trợ lý học toán thông minh!</h2>
                 <p className="mb-6 max-w-md text-center text-muted-foreground">
-                  I can help with equations, theorems, calculus, algebra, and more. Try asking a question below.
+                  Tôi có thể giúp bạn giải toán, ôn thi đại học, học đại số tuyến tính và nhiều hơn nữa. Hãy đặt câu hỏi bên dưới.
                 </p>
                 <div className="w-full">
                   <ChatInput />
@@ -345,21 +345,21 @@ export default function Home() {
               
               {/* Example cards moved to the bottom */}
               <div className="absolute bottom-10 left-0 right-0 px-4">
-                <div className="mx-auto max-w-5xl grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                <div className="mx-auto max-w-6xl grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   <ExampleCard
-                    title="Solve Equations"
-                    description="Solve quadratic, cubic, or systems of equations step-by-step"
-                    example="Solve x^2 - 5x + 6 = 0"
+                    title="Đề Thi Bảng A"
+                    description="Đề thi dành cho trường top - Mức độ khó"
+                    example="Cho tôi đề thi bảng A năm 2024"
                   />
                   <ExampleCard
-                    title="Calculate Derivatives"
-                    description="Find derivatives of functions with detailed explanations"
-                    example="What is the derivative of sin(x^2)?"
+                    title="Đề Thi Bảng B"
+                    description="Đề thi cơ bản - Mức độ vừa phải"
+                    example="Cho tôi đề thi bảng B năm 2024"
                   />
                   <ExampleCard
-                    title="Explain Concepts"
-                    description="Get clear explanations of mathematical concepts"
-                    example="Explain the Pythagorean theorem"
+                    title="Dạng Bài Tập"
+                    description="7 dạng bài: Ma trận, Hệ PT, Tổ hợp, Định thức..."
+                    example="Cho tôi bài tập về ma trận"
                   />
                 </div>
               </div>

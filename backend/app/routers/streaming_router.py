@@ -10,10 +10,11 @@ import logging
 import random
 from sqlalchemy.orm import Session
 
-from .. import crud, models, schemas, services
+from .. import crud, models, schemas
 from ..crud import file_crud
 from ..database import get_db
 from ..utils import sanitize_text
+from ..adapters.streaming_adapter import generate_ai_response_stream
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -147,7 +148,7 @@ async def stream_chat_response(
         # Start the AI response generation in a background task
         logger.info(f"Starting generate_ai_response_stream for generation_id: {generation_id}")
         generation_task = asyncio.create_task(
-            services.generate_ai_response_stream(
+            generate_ai_response_stream(
                 chat_id=str(chat_id),
                 user_message_content=user_message.content, # Pass content directly
                 file_ids=user_message.file_ids,      # Pass the list of UUIDs

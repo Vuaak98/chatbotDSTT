@@ -9,10 +9,11 @@ import mimetypes
 import logging
 from sqlalchemy.orm import Session
 
-from .. import config, services, schemas
+from .. import services, schemas
 from ..database import get_db
 from ..utils import sanitize_filename, validate_mime_type
 from ..crud import file_crud
+from ..config import get_settings
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -37,12 +38,12 @@ EXTENSION_TO_MIME = {
     '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 }
 
-# Get max file size from config
-MAX_INLINE_SIZE = config.get_settings().max_file_size  # 20MB for inline processing
+# Get max file size from config - sửa cách gọi get_settings
+MAX_INLINE_SIZE = get_settings().max_file_size  # 20MB for inline processing
 MAX_FILE_SIZE = 2 * 1024 * 1024 * 1024  # 2GB - maximum for Gemini Files API
 
 # Create a temporary directory for file uploads if it doesn't exist
-UPLOAD_DIR = Path(config.get_settings().upload_dir)
+UPLOAD_DIR = Path(get_settings().upload_dir)
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 router = APIRouter(

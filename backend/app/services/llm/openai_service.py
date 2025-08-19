@@ -1,94 +1,145 @@
-import asyncio
-from typing import AsyncIterator, Dict, List, Optional
+import os
+import logging
+from typing import List, Dict, Any, Optional, AsyncGenerator, Union
+import json
+from openai import AsyncOpenAI, OpenAI
 
-import openai
-from openai import AsyncOpenAI
-
+from ...config import get_settings
 from .base import LLMService
 
+logger = logging.getLogger(__name__)
 
 class OpenAIService(LLMService):
     """
-    Triển khai LLMService sử dụng OpenAI API
+    Service để giao tiếp với OpenAI API
     """
     
-    def __init__(self, api_key: str, model: str = "gpt-3.5-turbo"):
+    def __init__(
+        self, 
+        api_key: Optional[str] = None, 
+        model_name: Optional[str] = None
+    ):
         """
-        Khởi tạo OpenAI Service
+        Khởi tạo OpenAI service
         
         Args:
-            api_key: API key cho OpenAI
-            model: Tên model OpenAI (mặc định: gpt-3.5-turbo)
+            api_key: OpenAI API key
+            model_name: Tên model OpenAI cần sử dụng
         """
-        self.client = AsyncOpenAI(api_key=api_key)
-        self.model = model
+        settings = get_settings()
+        self.api_key = api_key or settings.openai_api_key
+        self.model_name = model_name or settings.openai_model_name
+        
+        # Tạo async client cho OpenAI
+        self.async_client = AsyncOpenAI(api_key=self.api_key)
+        self.sync_client = OpenAI(api_key=self.api_key)
+        
+        # LaTeX config để đảm bảo công thức toán học được hiển thị đúng
+        self.latex_config = {
+            "preserve_latex": True,
+            "response_format": {
+                "type": "text"
+            }
+        }
+        
+        logger.info(f"OpenAI service initialized with model: {self.model_name}")
     
     async def generate_stream(
-        self,
-        messages: List[Dict[str, str]],
-        system_prompt: Optional[str] = None,
+        self, 
+        system_message: str, 
+        user_message: str,
         temperature: float = 0.7,
-        max_tokens: Optional[int] = None
-    ) -> AsyncIterator[str]:
+        max_tokens: int = 2048
+    ) -> AsyncGenerator[str, None]:
         """
-        Tạo phản hồi streaming từ OpenAI.
+        Generate stream từ OpenAI API
         
         Args:
-            messages: List các tin nhắn
-            system_prompt: Prompt hệ thống
-            temperature: Temperature cho AI
-            max_tokens: Số lượng token tối đa
+            system_message: System prompt
+            user_message: User message
+            temperature: Mức độ sáng tạo (0.0 - 1.0)
+            max_tokens: Số tokens tối đa
             
         Yields:
-            Các phần nội dung từ phản hồi
+            Các chunks của response
         """
-        # Thêm system message nếu có
-        all_messages = []
-        if system_prompt:
-            all_messages.append({"role": "system", "content": system_prompt})
-        all_messages.extend(messages)
-        
         try:
-            response = await self.client.chat.completions.create(
-                model=self.model,
-                messages=all_messages,
+            # Tạo messages
+            messages = [
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": user_message}
+            ]
+            
+            # Thêm hướng dẫn để bảo toàn LaTeX
+            additional_system_message = {
+                "role": "system", 
+                "content": "LUÔN LUÔN bảo toàn tất cả các công thức toán học và ký hiệu LaTeX. Sử dụng $...$ cho inline và $$...$$ cho block công thức."
+            }
+            messages.insert(1, additional_system_message)
+            
+            logger.info(f"Generating streaming response with model: {self.model_name}")
+            
+            # Thêm tham số bổ sung để đảm bảo LaTeX được bảo toàn
+            stream = await self.async_client.chat.completions.create(
+                model=self.model_name,
+                messages=messages,
                 temperature=temperature,
                 max_tokens=max_tokens,
-                stream=True
+                stream=True,
+                response_format={"type": "text"}
             )
             
-            async for chunk in response:
-                if chunk.choices[0].delta.content:
-                    yield chunk.choices[0].delta.content
+            async for chunk in stream:
+                if chunk.choices and len(chunk.choices) > 0 and chunk.choices[0].delta.content:
+                    content = chunk.choices[0].delta.content
+                    # Đảm bảo nội dung LaTeX không bị cắt giữa chừng
+                    yield content
         except Exception as e:
-            # Log lỗi và trả về thông báo lỗi
-            print(f"Error in OpenAI streaming: {e}")
-            yield f"Error: {str(e)}"
+            logger.error(f"Error in generate_stream: {e}")
+            raise
     
-    async def generate(
-        self,
-        messages: List[Dict[str, str]],
-        system_prompt: Optional[str] = None,
+    def generate(
+        self, 
+        system_message: str, 
+        user_message: str,
         temperature: float = 0.7,
-        max_tokens: Optional[int] = None
+        max_tokens: int = 2048
     ) -> str:
         """
-        Tạo phản hồi đầy đủ từ OpenAI.
+        Generate đồng bộ từ OpenAI API
         
         Args:
-            messages: List các tin nhắn
-            system_prompt: Prompt hệ thống
-            temperature: Temperature cho AI
-            max_tokens: Số lượng token tối đa
+            system_message: System prompt
+            user_message: User message
+            temperature: Mức độ sáng tạo (0.0 - 1.0)
+            max_tokens: Số tokens tối đa
             
         Returns:
-            Phản hồi từ OpenAI
+            Response text
         """
-        # Tận dụng hàm generate_stream để có code DRY
-        result = []
-        async for chunk in self.generate_stream(
-            messages, system_prompt, temperature, max_tokens
-        ):
-            result.append(chunk)
-        
-        return "".join(result)
+        try:
+            # Tạo messages
+            messages = [
+                {"role": "system", "content": system_message},
+                {"role": "system", "content": "LUÔN LUÔN bảo toàn tất cả các công thức toán học và ký hiệu LaTeX. Sử dụng $...$ cho inline và $$...$$ cho block công thức."},
+                {"role": "user", "content": user_message}
+            ]
+            
+            logger.info(f"Generating synchronous response with model: {self.model_name}")
+            
+            # Thêm tham số bổ sung để đảm bảo LaTeX được bảo toàn
+            response = self.sync_client.chat.completions.create(
+                model=self.model_name,
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                response_format={"type": "text"}
+            )
+            
+            if response.choices and len(response.choices) > 0:
+                return response.choices[0].message.content
+            else:
+                return ""
+        except Exception as e:
+            logger.error(f"Error in generate: {e}")
+            raise

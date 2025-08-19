@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from .. import crud, models, schemas, services
 from ..database import get_db
-from ..config import get_settings # For upload limits if needed here
+from ..config import get_settings
 
 # Note: We are nesting message routes under chat routes conceptually,
 # but defining them in a separate router for modularity.
@@ -28,7 +28,7 @@ async def create_new_message_for_chat(
 
     processed_files_metadata = []
     if files:
-        if len(files) > get_settings().max_files_per_prompt: # Max 5 files
+        if len(files) > get_settings().max_files_per_prompt: # Sửa cách gọi get_settings
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, 
                 detail=f"Too many files. Maximum {get_settings().max_files_per_prompt} files allowed per prompt."

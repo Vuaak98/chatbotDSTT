@@ -7,8 +7,8 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "AI Math Chatbot",
-  description: "An AI-powered chatbot for math help",
+  title: "Trợ Lý Học Toán Thông Minh",
+  description: "Chatbot AI hỗ trợ học toán, ôn thi đại học và đại số tuyến tính",
     generator: 'v0.dev'
 }
 
