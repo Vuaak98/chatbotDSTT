@@ -1,6 +1,6 @@
-# 📁 Cấu trúc dự án Chatbot Toán AI
+# 📁 Cấu trúc dự án Trợ Lý Học Toán
 
-Tài liệu này mô tả cấu trúc chi tiết của dự án Chatbot Toán AI – một ứng dụng full-stack chất lượng portfolio, trình diễn kỹ năng AI và hỗ trợ toán học qua giao diện chat hiện đại.
+Tài liệu này mô tả cấu trúc chi tiết của dự án Trợ Lý Học Toán – một ứng dụng full-stack chất lượng portfolio, trình diễn kỹ năng AI và hỗ trợ toán học qua giao diện chat hiện đại.
 
 ## 🎯 Tổng quan dự án
 

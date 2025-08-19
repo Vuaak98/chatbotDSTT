@@ -1,8 +1,8 @@
-# 🚀 Backend README - AI Math Chatbot
+# 🚀 Backend README - Trợ Lý Học Toán
 
 ## 📋 Tổng quan
 
-Backend của AI Math Chatbot được xây dựng với FastAPI, tích hợp Google Gemini LLM và RAG system tiên tiến. Hệ thống hỗ trợ xử lý toán học, semantic search, và context-aware responses.
+Backend của Trợ Lý Học Toán được xây dựng với FastAPI, tích hợp Google Gemini LLM và RAG system tiên tiến. Hệ thống hỗ trợ xử lý toán học, semantic search, và context-aware responses.
 
 ## 🏗️ Cấu trúc thư mục backend
 

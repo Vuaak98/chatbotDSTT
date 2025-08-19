@@ -1,6 +1,6 @@
-# 🚀 Lộ trình phát triển AI Math Chatbot
+# 🚀 Lộ trình phát triển Trợ Lý Học Toán
 
-Tài liệu này liệt kê các đầu việc đã hoàn thành và kế hoạch phát triển tiếp theo cho AI Math Chatbot với RAG system.
+Tài liệu này liệt kê các đầu việc đã hoàn thành và kế hoạch phát triển tiếp theo cho Trợ Lý Học Toán với RAG system.
 
 ## 📊 Tổng quan tiến độ
 

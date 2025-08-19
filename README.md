@@ -1,4 +1,4 @@
-# 🤖 Chatbot Toán AI - AI Math Chatbot
+# 🤖 Trợ Lý Học Toán - AI Math Chatbot
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Một chatbot AI tiên tiến được thiết kế để giúp học sinh và người đi làm giải các bài toán từ số học cơ bản đến giải tích nâng cao, đại số tuyến tính, thống kê và nhiều hơn nữa.**
+> **Một trợ lý học toán thông minh giúp giải bài toán từ số học cơ bản đến giải tích nâng cao, đại số tuyến tính, thống kê và nhiều hơn nữa.**
 
 ## 🚀 Điểm nổi bật của dự án
 

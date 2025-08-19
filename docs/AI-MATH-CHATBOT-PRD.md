@@ -1,8 +1,8 @@
-# 🚀 Đặc tả sản phẩm (PRD) - AI Math Chatbot
+# 🚀 Đặc tả sản phẩm (PRD) - Trợ Lý Học Toán
 
 ## 📋 Tổng quan
 
-AI Math Chatbot là một ứng dụng AI tiên tiến tích hợp RAG (Retrieval-Augmented Generation) system, được thiết kế để hỗ trợ học sinh và người đi làm giải các bài toán từ cơ bản đến nâng cao. Ứng dụng sử dụng Google Gemini LLM kết hợp với vector database để cung cấp câu trả lời chính xác và có ngữ cảnh.
+Trợ Lý Học Toán là một ứng dụng AI tiên tiến tích hợp RAG (Retrieval-Augmented Generation) system, được thiết kế để hỗ trợ học sinh và người đi làm giải các bài toán từ cơ bản đến nâng cao. Ứng dụng sử dụng Google Gemini LLM kết hợp với vector database để cung cấp câu trả lời chính xác và có ngữ cảnh.
 
 ## 🎯 Mục tiêu sản phẩm
 

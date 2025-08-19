@@ -1,6 +1,6 @@
-# 🚀 Chatbot Toán AI - Frontend
+# 🚀 Trợ Lý Học Toán - Frontend
 
-Đây là **frontend** cho ứng dụng Chatbot Toán AI, xây dựng với Next.js 14, React, TypeScript và Tailwind CSS. Giao diện hiện đại, dễ truy cập, đáp ứng tốt cho việc tương tác với trợ lý toán học AI và RAG system.
+Đây là **frontend** cho ứng dụng Trợ Lý Học Toán, xây dựng với Next.js 14, React, TypeScript và Tailwind CSS. Giao diện hiện đại, dễ truy cập, đáp ứng tốt cho việc tương tác với trợ lý toán học AI và RAG system.
 
 ## 🌟 Tính năng nổi bật
 
